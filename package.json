@@ -1,6 +1,7 @@
 {
-  "name": "ember-cli-t8-select",
-  "version": "0.0.0",
+  "name": "ember-cli-better-select",
+  "version": "0.0.1",
+  "description": "An enriched select field. Inspired by jQuery Chosen",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -10,11 +11,17 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "https://github.com/stefanpenner/ember-cli",
+  "repository": "https://github.com/lsocrate/ember-cli-better-select",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "contributors": [
+    "Augusto Nishi",
+    "Luiz Sócrate"
+  ],
+  "bugs": {
+    "url": "https://github.com/lsocrate/ember-cli-better-select/issues"
+  },
   "license": "MIT",
   "devDependencies": {
     "body-parser": "^1.2.0",
@@ -31,7 +38,9 @@
     "glob": "^4.0.5"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "select",
+    "chosen"
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
