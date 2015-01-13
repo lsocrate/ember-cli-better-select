@@ -22,6 +22,9 @@ export default Ember.View.extend(selektorMixin, {
     // setter, dont need the getter, because its only to add
     if (arguments.length > 1){
       this.set('filter', '');
+      if (this.get('action')) {
+        this.sendAction('action', selected);
+      }
       if (selected !== null){
         if (this.get('value.length')>0){
           this.get('value').addObject(selected);
