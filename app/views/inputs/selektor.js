@@ -9,15 +9,30 @@ export default Ember.View.extend(selektorMixin, {
   classNameBindings: ['isSearchDisabled:chosen-container-single-nosearch'],
   disableSearchThreshold: 7,
 
+  findItem: function (value, option) {
+    return this.get('content').find(function (item) {
+      //using ember array to compare 2 objects
+      //because you cant compare 2 objects with ===
+      var list = [get(item, option)];
+      list.addObject(value); //if they are the same its not added
+      return list.get('length') === 1;
+    });
+  },
+
   selected: function (key, selected) {
     // getter
     var option = this.get('optionValue');
     if (arguments.length === 1) {
       var value = this.get('value');
       if (value !== undefined && value !== null) {
-        return this.get('content').find(function (item) {
-          return get(item, option) === value;
-        });
+        if (this.get('value').then){ //its because when using models the return is a promise
+          return this.get('value').then(function (value) {
+            return this.findItem(value, option);
+          }.bind(this));
+        }
+        else{
+          return this.findItem(value, option);
+        }
       }
     // setter
     } else {
