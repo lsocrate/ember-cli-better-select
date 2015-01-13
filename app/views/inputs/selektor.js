@@ -1,7 +1,14 @@
 import Ember from 'ember';
 import selektorMixin from './../../mixins/views/selektor';
 
-var get = Ember.get;
+var get = function (obj, key) {
+  if (key){
+    return Ember.get(obj, key);
+  }
+  else{
+    return obj;
+  }
+};
 
 export default Ember.View.extend(selektorMixin, {
   templateName: 'components/selektor',
