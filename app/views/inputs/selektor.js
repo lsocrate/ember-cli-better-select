@@ -26,9 +26,12 @@ export default Ember.View.extend(selektorMixin, {
       var value = this.get('value');
       if (value !== undefined && value !== null) {
         if (this.get('value').then){ //its because when using models the return is a promise
-          return this.get('value').then(function (value) {
+          var promise = this.get('value').then(function (value) {
             return this.findItem(value, option);
           }.bind(this));
+          return Ember.ObjectProxy.extend(Ember.PromiseProxyMixin).create({
+            promise: promise //makes a proxy that resolves the promise
+          });
         }
         else{
           return this.findItem(value, option);
@@ -37,7 +40,7 @@ export default Ember.View.extend(selektorMixin, {
     // setter
     } else {
       if (this.get('action')) {
-        this.send(this.get('action'), selected);
+        this.get('controller').send(this.get('action'), selected);
       }
       this.set('value', selected && get(selected, option));
       return selected;

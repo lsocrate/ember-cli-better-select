@@ -7,5 +7,10 @@ export default Ember.Controller.extend({
     {id: 3, name: 'Claude'},
     {id: 4, name: 'Denis'},
     {id: 5, name: 'Eric'}
-  ]
+  ],
+  actions:{
+    change: function (value) {
+      console.log(value);
+    }
+  }
 });

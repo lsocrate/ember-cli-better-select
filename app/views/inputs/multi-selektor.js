@@ -23,7 +23,7 @@ export default Ember.View.extend(selektorMixin, {
     if (arguments.length > 1){
       this.set('filter', '');
       if (this.get('action')) {
-        this.send(this.get('action'), selected);
+        this.get('controller').send(this.get('action'), selected);
       }
       if (selected !== null){
         if (this.get('value.length')>0){
