@@ -65,11 +65,9 @@ export default Ember.Mixin.create({
 
   resolveContent: function () {
     var content = this.get('content');
-    console.log(content);
-    if (content.then){
+    if (content && content.then){
       content.then(resolved => {
         this.set('resolvedContent', resolved);
-        console.log(resolved);
       });
     }
     else{
