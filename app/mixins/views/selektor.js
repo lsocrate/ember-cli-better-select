@@ -63,11 +63,26 @@ export default Ember.Mixin.create({
     }
   },
 
+  resolveContent: function () {
+    var content = this.get('content');
+    console.log(content);
+    if (content.then){
+      content.then(resolved => {
+        this.set('resolvedContent', resolved);
+        console.log(resolved);
+      });
+    }
+    else{
+      this.set('resolvedContent', content);
+    }
+  }.observes('content').on('init'),
+  resolvedContent: null,
+
   sortedContent: function () {
     var group = this.get('optionGroup');
-    if (group) return this.get('content').sortBy(group);
-    else return this.get('content');
-  }.property('content', 'optionGroup'),
+    if (group) return this.get('resolvedContent').sortBy(group);
+    else return this.get('resolvedContent');
+  }.property('resolvedContent', 'optionGroup'),
 
   filteredContent: function () {
     var filter = this.get('filter');
