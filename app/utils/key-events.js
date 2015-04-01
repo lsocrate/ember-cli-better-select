@@ -23,7 +23,7 @@ var keyCode = {
 
 export function getKey(ev) {
   if (ev.key) return ev.key;
-  if (_.isNull(ev.which)) return String.fromCharCode(ev.keyCode);
+  if (Ember.isBlank(ev.which)) return String.fromCharCode(ev.keyCode);
   if (keyCode[ev.which]) return keyCode[ev.which];
 
   var letter = String.fromCharCode(ev.which);
