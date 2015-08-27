@@ -5,8 +5,8 @@
     "-Promise",
     "$"
   ],
-  "browser" : true,
-  "boss" : true,
+  "browser": true,
+  "boss": true,
   "curly": false,
   "debug": false,
   "devel": true,
