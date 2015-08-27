@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-better-select",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "An enriched select field. Inspired by jQuery Chosen",
   "directories": {
     "doc": "doc",
