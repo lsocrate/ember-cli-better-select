@@ -1,1 +1,12 @@
-{{yield}}
+<a class='chosen-single chosen-display'>
+  <span>{{displayValue}}</span>
+  <div><b></b></div>
+</a>
+<div class='chosen-drop'>
+  <div class='chosen-search'>
+    {{input class='search' value=filter placeholder=attrs.searchPlaceholder}}
+  </div>
+  <ul class='chosen-results'>
+    {{option-group content=filteredContent on-select='selected'}}
+  </ul>
+</div>

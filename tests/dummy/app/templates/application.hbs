@@ -1,3 +1,10 @@
 <h2 id="title">Welcome to Ember</h2>
 
+{{better-select placeholder=placeholder
+                value=selected
+                content=options
+                optionLabelPath='content.name'
+                on-selection='selectionChanged'
+}}
+
 {{outlet}}

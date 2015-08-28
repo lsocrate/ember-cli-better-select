@@ -1,1 +1,1 @@
-export { default } from 'ember-cli-better-select/components/better-select';
+export { default } from 'ember-cli-better-select/components/better-select'
