@@ -2,27 +2,43 @@ import Ember from 'ember'
 import layout from '../templates/components/better-select'
 import removeAccents from '../utils/remove-accents'
 
-const { computed, get, isEmpty } = Ember
+const { $, computed, get, isArray, isEmpty, observer, run, set, setProperties } = Ember
 const pathPrefix = 'content.'
 
-export default Ember.Component.extend({
-  layout: layout,
+const selectedItems = Ember.ArrayProxy.extend({
+  objectAtContent (idx) {
+    const labelPath = get(this, 'labelPath')
+    const item = get(this, 'content').objectAt(idx)
+    const label = isEmpty(labelPath) ? item : get(item, labelPath)
+    return { item, label }
+  }
+})
 
-  classNames: ['chosen-container-single'],
-  classNameBindings: ['isSearchDisabled:chosen-container-single-nosearch'],
+export default Ember.Component.extend({
+  layout,
+
+  classNames: ['chosen-container'],
+  classNameBindings: [
+    'isMulti:chosen-container-multi:chosen-container-single',
+    'isSearchDisabled:chosen-container-single-nosearch',
+    'isShowing:chosen-with-drop',
+    'isShowing:chosen-container-active'
+  ],
   disableSearchThreshold: 7,
 
-  valueLabel: computed('attrs.value', 'labelPath', {
-    get() {
-      const value = get(this, 'attrs.value.value')
-      if (isEmpty(value)) { return false }
+  isMulti: computed.alias('attrs.multiple'),
+  isOpen: false,
 
-      const optionLabel = get(this, 'labelPath')
-      return isEmpty(optionLabel) ? value : get(value, optionLabel)
+  selectedItems: computed('attrs.selected.value', 'attrs.selected.value.[]', 'labelPath', {
+    get() {
+      let content = get(this, 'attrs.selected.value')
+      if (isEmpty(content)) { return [] }
+      if (!isArray(content)) { content = Ember.A([ content ]) }
+
+      const labelPath = get(this, 'labelPath')
+      return selectedItems.create({ content, labelPath })
     }
   }),
-
-  displayValue: computed.or('valueLabel', 'attrs.placeholder'),
 
   isSearchDisabled: computed('disableSearchThreshold', 'content.[]', {
     get() {
@@ -62,9 +78,47 @@ export default Ember.Component.extend({
     }
   }),
 
+  click (ev) {
+    if (!get(this, 'isShowing')) {
+      this.$('input.search').focus()
+    } else {
+      const clickedInput = ev.target.tagName === 'INPUT'
+      const display = this.$('.chosen-display')[0]
+      const clickedInsideElement = display === ev.target || $.contains(display, ev.target)
+      if (clickedInput && clickedInsideElement) {
+        set(this, 'isShowing', false)
+      }
+    }
+  },
+  focusIn () { setProperties(this, { filter: '', isShowing: true }) },
+  controlCloseEvent: observer('isShowing', function () {
+    const isShowing = get(this, 'isShowing')
+    const handlerName = `click.${this.elementId}`
+    if (!isShowing) {
+      $(document).off(handlerName)
+    } else {
+      $(document).on(handlerName, (ev) => {
+        run(this, function () {
+          const clickedInsideElement = $.contains(this.element, ev.target)
+          const clickedSearchPlaceholder = ev.target.className === 'search-placeholder'
+          set(this, 'isShowing', clickedInsideElement || clickedSearchPlaceholder)
+        })
+      })
+    }
+  }),
+
   actions: {
     selected(option) {
-      this.sendAction('on-selection', option)
+      const selected = Ember.A([ option ])
+
+      if (get(this, 'isMulti')) {
+        const content = get(this, 'attrs.selected.value')
+        if (!isEmpty(content)) {
+          selected.addObjects(content)
+        }
+      }
+
+      this.sendAction('on-selection', option, selected)
     }
   }
 })

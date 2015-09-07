@@ -12,6 +12,9 @@ module.exports = function(defaults) {
     This build file does *not* influence how the addon or the app using it
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
+  app.import('bower_components/chosen/chosen.min.css');
+  app.import('bower_components/chosen/chosen-sprite.png', { destDir: 'assets' });
+  app.import('bower_components/chosen/chosen-sprite@2x.png', { destDir: 'assets' });
 
   return app.toTree();
 };

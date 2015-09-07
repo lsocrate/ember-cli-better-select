@@ -1,11 +1,33 @@
-<a class='chosen-single chosen-display'>
-  <span>{{displayValue}}</span>
-  <div><b></b></div>
-</a>
+{{#if isMulti}}
+  <ul class='chosen-choices'>
+    {{#each selectedItems as |item|}}
+      <li class='search-choice'>
+        <span>{{item.label}}</span>
+        <a class='search-choice-close' {{action 'remove' item}}></a>
+      </li>
+    {{else}}
+      <li class='search-placeholder'>{{attrs.placeholder}}</li>
+    {{/each}}
+    <li class='search-field'>
+      {{input class='search' value=filter placeholder=attrs.searchPlaceholder}}
+    </li>
+  </ul>
+{{else}}
+  <a class='chosen-single chosen-display'>
+    {{#each selectedItems as |item|}}
+      <span>{{item.label}}</span>
+    {{else}}
+      <span>{{attrs.placeholder}}</span>
+    {{/each}}
+    <div><b></b></div>
+  </a>
+{{/if}}
 <div class='chosen-drop'>
-  <div class='chosen-search'>
-    {{input class='search' value=filter placeholder=attrs.searchPlaceholder}}
-  </div>
+  {{#unless isMulti}}
+    <div class='chosen-search'>
+      {{input class='search' value=filter placeholder=attrs.searchPlaceholder}}
+    </div>
+  {{/unless}}
   <ul class='chosen-results'>
     {{option-group content=filteredContent on-select='selected'}}
   </ul>

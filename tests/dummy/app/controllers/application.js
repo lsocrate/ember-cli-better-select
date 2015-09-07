@@ -1,6 +1,6 @@
 import Ember from 'ember'
 
-const options = new Ember.A([
+const options = Ember.A([
   { id: 1, name: 'Anna' },
   { id: 2, name: 'Bob' },
   { id: 3, name: 'Claude' },
@@ -11,10 +11,15 @@ const placeholder = 'Placeholder text'
 
 export default Ember.Controller.extend({
   options, placeholder,
+  singleSelected: Ember.A(),
+  multiSelected: Ember.A(),
 
   actions: {
-    selectionChanged (option) {
-      this.set('selected', option)
+    singleSelection (selected) {
+      this.set('singleSelected', selected)
+    },
+    multiSelection (selected, allSelected) {
+      this.set('multiSelected', allSelected)
     }
   }
 })
