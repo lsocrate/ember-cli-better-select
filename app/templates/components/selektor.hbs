@@ -1,11 +1,13 @@
-<a class="chosen-single chosen-display">
-  <span>
-    {{#if view.selected}}
-      {{ember-get view.selected view.optionLabel '-'}}
-    {{else}}
-      {{view.placeholder}}
+<a {{bind-attr class=":chosen-single :chosen-display view.allowSingleDeselect:chosen-single-with-deselect"}}>
+  {{#if view.selected}}
+    <span>{{ember-get view.selected view.optionLabel '-'}}</span>
+    {{#if view.allowSingleDeselect}}
+      <abbr class="search-choice-close" {{action "remove" target="view"}}></abbr>
     {{/if}}
-  </span><div><b></b></div>
+  {{else}}
+    <span>{{view.placeholder}}</span>
+  {{/if}}
+  <div><b></b></div>
 </a>
 <div class='chosen-drop'>
   <div class="chosen-search">

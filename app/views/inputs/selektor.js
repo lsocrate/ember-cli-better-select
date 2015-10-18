@@ -8,6 +8,7 @@ export default Ember.View.extend(selektorMixin, {
   classNames: ['chosen-container-single'],
   classNameBindings: ['isSearchDisabled:chosen-container-single-nosearch'],
   disableSearchThreshold: 7,
+  allowSingleDeselect: false,
 
   findItem: function (value, option) {
     return this.get('content').find(function (item) {
@@ -58,5 +59,13 @@ export default Ember.View.extend(selektorMixin, {
     this._super();
     if (! (this.get('prompt') || this.get('value') || this.get('value') === false))
       this.set('selected', this.get('filteredContent')[0]);
+  },
+
+  actions:{
+    remove: function(){
+      this.set('selected', null);
+      this.set('isShowing', false);
+      this.set('filter', '');
+    }
   }
 });
