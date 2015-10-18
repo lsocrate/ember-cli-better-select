@@ -10,7 +10,8 @@ export default Ember.View.extend(selektorMixin, {
   disableSearchThreshold: 7,
 
   findItem: function (value, option) {
-    return this.get('content').find(function (item) {
+    var content = this.get('content');
+    return content && content.find(function (item) {
       //using ember array to compare 2 objects
       //because you cant compare 2 objects with ===
       var list = [get(item, option)];
